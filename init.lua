@@ -43,6 +43,12 @@ P.S. You can delete this when you're done too. It's your config now :)
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+-- Set relative line numbers
+vim.wo.number = true
+vim.wo.relativenumber = true
+
+-- Custom behavior for Ctrl+D and Ctrl+U in normal mode
+
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
@@ -200,19 +206,91 @@ require('lazy').setup({
     },
   },
 
+  -- {
+  --   -- Theme inspired by Atom
+  --   'navarasu/onedark.nvim',
+  --   priority = 1000,
+  --   lazy = false,
+  --   config = function()
+  --     require('onedark').setup {
+  --       -- Set a style preset. 'dark' is default.
+  --       style = 'light', -- dark, darker, cool, deep, warm, warmer, light
+  --     }
+  --     require('onedark').load()
+  --   end,
+  -- },
+  --
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
+    "neanias/everforest-nvim",
     lazy = false,
+    priority = 1000, -- make sure to load this before all the other start plugins
+    -- Optional; default configuration will be used if setup isn't called.
     config = function()
-      require('onedark').setup {
-        -- Set a style preset. 'dark' is default.
-        style = 'dark', -- dark, darker, cool, deep, warm, warmer, light
-      }
-      require('onedark').load()
+      require("everforest").setup({
+        -- Your config here
+        background = "soft",
+        transparent_background_level = 1
+      })
+    require("everforest").load()
     end,
   },
+
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   config = function()
+  --     require("catppuccin").setup({
+  --       flavour = "mocha", -- latte, frappe, macchiato, mocha
+  --       background = { -- :h background
+  --         light = "latte",
+  --         dark = "mocha",
+  --       },
+  --       transparent_background = true, -- disables setting the background color.
+  --       show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+  --       term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
+  --       dim_inactive = {
+  --         enabled = false, -- dims the background color of inactive window
+  --         shade = "dark",
+  --         percentage = 0.15, -- percentage of the shade to apply to the inactive window
+  --       },
+  --       no_italic = false, -- Force no italic
+  --       no_bold = false, -- Force no bold
+  --       no_underline = false, -- Force no underline
+  --       styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+  --         comments = { "italic" }, -- Change the style of comments
+  --         conditionals = { "italic" },
+  --         loops = {},
+  --         functions = {},
+  --         keywords = {},
+  --         strings = {},
+  --         variables = {},
+  --         numbers = {},
+  --         booleans = {},
+  --         properties = {},
+  --         types = {},
+  --         operators = {},
+  --       },
+  --       color_overrides = {},
+  --       custom_highlights = {},
+  --       integrations = {
+  --         cmp = true,
+  --         gitsigns = true,
+  --         nvimtree = true,
+  --         treesitter = true,
+  --         notify = false,
+  --         mini = {
+  --           enabled = true,
+  --           indentscope_color = "",
+  --         },
+  --         -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
+  --       },
+  --     })
+  --
+  --     -- setup must be called before loading
+  --     vim.cmd.colorscheme "catppuccin"
+  --   end,
+  -- },
 
   {
     -- Set lualine as statusline
@@ -282,7 +360,7 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
 }, {})
 
 -- [[ Setting options ]]
@@ -335,6 +413,9 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set('n', '<C-d>', '<C-d>zz', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-u>', '<C-u>zz', { noremap = true, silent = true })
+
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -681,4 +762,8 @@ cmp.setup {
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
+-- vim: ts=2 sts=2 sw=2 etc
+--
+--
+-- -- Uncomment the following lines to use the default colorscheme
+
